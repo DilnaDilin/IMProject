@@ -1,12 +1,12 @@
 import networkx as nx
 import numpy as np
-from DEvolution import DE
 
+from capSA import CapSA
 # Constants as given in the problem statement
 m = 1.1
 r = 5
 s = 1.1
-# Set the number of seed nodes to a threshold
+# set number of seed nodes to a threshold
 k = 5
 # Budget threshold
 budget = 90
@@ -39,7 +39,8 @@ closeness_centrality = nx.closeness_centrality(G)
 eigenvector_centrality = nx.eigenvector_centrality(G)
 
 # Build the decision matrix
-centrality_measures = [degree_centrality, betweenness_centrality, closeness_centrality, eigenvector_centrality]
+# centrality_measures = [degree_centrality, betweenness_centrality, closeness_centrality, eigenvector_centrality]
+centrality_measures = [degree_centrality, betweenness_centrality]
 decision_matrix = np.zeros((n, len(centrality_measures)))
 
 nodes = list(G.nodes())
@@ -69,41 +70,37 @@ ranked_nodes_list = [node for node, score in ranked_nodes]
 # Calculate the number of candidates using the given equation
 num_candidates = np.ceil(k + (n - k) * (beta * k / n) ** (1 - beta)).astype(int)
 
-num_candidates = np.ceil(k + (n - k) * (beta * k / n) ** (1 - beta)).astype(int)
-
 # Select the candidates
 candidates = ranked_nodes_list[:num_candidates]
+print("lenth:" , len(candidates))
 
-F = 0.8  # Differential weight
-CR = 0.9  # Crossover probability
+# print("finish", ranked_nodes)
 searchAgents = 30  # Number of Capuchins (agents)
 dim = num_candidates          # Number of candidates (l)
 upper_bound = 1.0  # Upper bound of initialization
 lower_bound = 0.0  # Lower bound of initialization
 maxIter = 50
-# Run the Differential Evolution algorithm
-BestFit, BestPos, BestPos_bin, cg_curve = DE(searchAgents, maxIter, candidates, budget, cost, G, F, CR, k)
 
-print("Best Fitness:", BestFit)
-print("Best Position (Continuous):", BestPos)
-print("Best Position (Binary):", BestPos_bin)
+
+
+# Call the CapSA function with the defined parameters
+best_fitness, best_seed_set, best_seed_set_bin, convergence_curve = CapSA(searchAgents, maxIter, candidates, budget, cost, G,upper_bound, lower_bound, dim, k)
 
 # Output the results
 print("K and cost threshold:", k, budget)
-print("Best Fitness Value:", BestFit)
+print("Best Fitness Value:", best_fitness)
 # print("Best Seed Set (Binary):", best_seed_set)
-final_seed_set = [candidates[i] for i, val in enumerate(BestPos_bin) if val == 1]
+final_seed_set = [candidates[i] for i, val in enumerate(best_seed_set_bin) if val == 1]
 print("Best Seed Set :", final_seed_set)
 total_cost = sum(cost[node] for node in final_seed_set)
 print("Best Seed Set cost :", total_cost)
-print("Convergence Curve:", cg_curve)
+print("Convergence Curve:", convergence_curve)
 
 
 
-# # Output the ranked nodes and candidates
-# print("Ranked Nodes (Top 10):")
-# for node, score in ranked_nodes[:10]:
-#     print(f"Node: {node}, SAW Score: {score:.4f}")
+# # Step 1: Initialize the Capuchins
+# capuchin_population = initialization(searchAgents, dim, upper_bound, lower_bound,k)
+# capuchins = adjust_population(capuchin_population,candidates, budget,cost)
 
-print("\nSelected Candidate Nodes:")
-print(candidates)
+
+print("candid", candidates)
