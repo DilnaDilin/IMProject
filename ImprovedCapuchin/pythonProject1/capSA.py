@@ -197,30 +197,29 @@ def CapSA(noP, maxite, candidates, budget, costs, G, UB, LB, dim, k):
         for i in range(0, num_worst, 2):
             if i + 1 < num_worst and np.random.rand() < crossover_rate:
                 offspring1, offspring2 = crossover(CapuchinPos[best_indices[i]], CapuchinPos[best_indices[i + 1]])
-                CapPos[worst_indices[i]] = offspring1
-                CapPos[worst_indices[i + 1]] = offspring2
+                CapuchinPos[worst_indices[i]] = offspring1
+                CapuchinPos[worst_indices[i + 1]] = offspring2
 
         for i in worst_indices:
-            CapPos[i], val = mutation(CapPos[i], mutation_rate)
+            CapuchinPos[i], val = mutation(CapuchinPos[i], mutation_rate)
 
 
-        # Boundary check and fitness calculation
-        for i in worst_indices:
-            adjusted_capuchin = binary_conversion(CapPos[i], k, candidates, budget, costs)
-            CapFit[i] = fobj(adjusted_capuchin, candidates, G)
-
-            if CapFit[i] > Fit[i]:
-                CapBestPos[i, :] = CapPos[i, :].copy()
-                CapBestPosBin[i, :] = adjusted_capuchin.copy()
-                CapuchinPos[i, :] = CapPos[i, :]
-                Fit[i] = CapFit[i]
-
-        fmax = np.max(Fit)
-        if fmax > fitCapSA:
-            gFoodPos = CapBestPos[np.argmax(Fit)].copy()
-            gFoodPosBin = CapBestPosBin[np.argmax(Fit)].copy()
-            fitCapSA = fmax
-
+        # # Boundary check and fitness calculation
+        # for i in worst_indices:
+        #     adjusted_capuchin = binary_conversion(CapPos[i], k, candidates, budget, costs)
+        #     CapFit[i] = fobj(adjusted_capuchin, candidates, G)
+        #
+        #     if CapFit[i] > Fit[i]:
+        #         CapBestPos[i, :] = CapPos[i, :].copy()
+        #         CapBestPosBin[i, :] = adjusted_capuchin.copy()
+        #         CapuchinPos[i, :] = CapPos[i, :]
+        #         Fit[i] = CapFit[i]
+        #
+        # fmax = np.max(Fit)
+        # if fmax > fitCapSA:
+        #     gFoodPos = CapBestPos[np.argmax(Fit)].copy()
+        #     gFoodPosBin = CapBestPosBin[np.argmax(Fit)].copy()
+        #     fitCapSA = fmax
         print("fit", cg_curve)
 
     return fitCapSA, gFoodPos, gFoodPosBin, cg_curve
