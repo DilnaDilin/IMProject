@@ -76,11 +76,11 @@ candidates = ranked_nodes_list[:num_candidates]
 
 F = 0.8  # Differential weight
 CR = 0.9  # Crossover probability
-searchAgents = 30  # Number of Capuchins (agents)
+searchAgents = 50  # Number of Capuchins (agents)
 dim = num_candidates          # Number of candidates (l)
 upper_bound = 1.0  # Upper bound of initialization
 lower_bound = 0.0  # Lower bound of initialization
-maxIter = 50
+maxIter = 30
 # Run the Differential Evolution algorithm
 BestFit, BestPos, BestPos_bin, cg_curve = DE(searchAgents, maxIter, candidates, budget, cost, G, F, CR, k)
 
@@ -107,3 +107,15 @@ print("Convergence Curve:", cg_curve)
 
 print("\nSelected Candidate Nodes:")
 print(candidates)
+
+from IC import IC
+# Set the propagation probability and the number of Monte Carlo simulations
+propagation_probability = 0.01
+monte_carlo_simulations = 1000
+
+# Calculate the spread using the IC model
+spread = IC(G, final_seed_set, propagation_probability, mc=monte_carlo_simulations)
+
+# Output the results
+print(f"Final Seed Set: {final_seed_set}")
+print(f"Spread of the Seed Set using IC: {spread}")

@@ -1,6 +1,7 @@
 import numpy as np
 from InitialiationFile import binary_conversion
 from fitness import fobj
+# np.random.seed(42)  # Set seed for numpy
 from scipy.spatial.distance import euclidean
 
 

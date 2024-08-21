@@ -48,11 +48,11 @@ candidates = ranked_nodes[:num_candidates]
 print("lenth:" , len(candidates))
 
 # print("finish", ranked_nodes)
-searchAgents = 30  # Number of Capuchins (agents)
+searchAgents = 50  # Number of Capuchins (agents)
 dim = num_candidates          # Number of candidates (l)
 upper_bound = 1.0  # Upper bound of initialization
 lower_bound = 0.0  # Lower bound of initialization
-maxIter = 50
+maxIter = 30
 
 
 

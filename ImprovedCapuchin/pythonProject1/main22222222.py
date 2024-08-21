@@ -72,14 +72,14 @@ num_candidates = np.ceil(k + (n - k) * (beta * k / n) ** (1 - beta)).astype(int)
 
 # Select the candidates
 candidates = ranked_nodes_list[:num_candidates]
-print("lenth:" , len(candidates))
+print("length:", len(candidates))
 
 # print("finish", ranked_nodes)
-searchAgents = 30  # Number of Capuchins (agents)
+searchAgents = 50  # Number of Capuchins (agents)
 dim = num_candidates          # Number of candidates (l)
 upper_bound = 1.0  # Upper bound of initialization
 lower_bound = 0.0  # Lower bound of initialization
-maxIter = 50
+maxIter = 30
 
 
 
@@ -104,3 +104,15 @@ print("Convergence Curve:", convergence_curve)
 
 
 print("candid", candidates)
+
+from IC import IC
+# Set the propagation probability and the number of Monte Carlo simulations
+propagation_probability = 0.01
+monte_carlo_simulations = 1000
+
+# Calculate the spread using the IC model
+spread = IC(G, final_seed_set, propagation_probability, mc=monte_carlo_simulations)
+
+# Output the results
+print(f"Final Seed Set: {final_seed_set}")
+print(f"Spread of the Seed Set using IC: {spread}")

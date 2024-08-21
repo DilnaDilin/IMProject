@@ -1,5 +1,9 @@
+from random import random
+
 import numpy as np
 from adjust import adjust_capuchin
+# np.random.seed(42)  # Set seed for numpy
+
 
 def initialization(searchAgents, dim, upper_bound, lower_bound,k):
     """Initialize the first population of Capuchins."""
