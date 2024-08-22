@@ -16,7 +16,7 @@ beta = 0.5  # Example user-defined parameter
 
 # Dataset file
 # input_file = 'socfb-Reed98.mtx'
-input_file = 'socfb-Dartmouth6.mtx'
+input_file = 'email-univ.edges'
 output_file = 'Mydata_with_costs.txt'
 
 # Read the graph

@@ -83,21 +83,21 @@ upper_bound = 1.0  # Upper bound of initialization
 lower_bound = 0.0  # Lower bound of initialization
 maxIter = 30
 # Run the Differential Evolution algorithm
-BestFit, BestPos, BestPos_bin, cg_curve = DE(searchAgents, maxIter, candidates, budget, cost, G, F, CR, k)
+# BestFit, BestPos, BestPos_bin, cg_curve = DE(searchAgents, maxIter, candidates, budget, cost, G, F, CR, k)
 
-print("Best Fitness:", BestFit)
-print("Best Position (Continuous):", BestPos)
-print("Best Position (Binary):", BestPos_bin)
-
+from Modified_LIE import LIE
+final_seed_set = [105, 333, 233, 42, 16]
+lie_value = LIE(G,final_seed_set)
 # Output the results
 print("K and cost threshold:", k, budget)
-print("Best Fitness Value:", BestFit)
+# print("Best Fitness Value:", BestFit)
 # print("Best Seed Set (Binary):", best_seed_set)
-final_seed_set = [candidates[i] for i, val in enumerate(BestPos_bin) if val == 1]
+# final_seed_set = [candidates[i] for i, val in enumerate(BestPos_bin) if val == 1]
 print("Best Seed Set :", final_seed_set)
 total_cost = sum(cost[node] for node in final_seed_set)
 print("Best Seed Set cost :", total_cost)
-print("Convergence Curve:", cg_curve)
+print("lie", lie_value)
+
 
 
 

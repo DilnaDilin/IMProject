@@ -70,7 +70,11 @@ def LIE(G, seed):
     pu = calc_pcm_prob(G, Ns2_S)
 
     du = calc_edges(G, Ns1_S, Ns2_S)
-    influence_spread = ((1 + (1 / len(Ns1_S)) * sum_pd(pu, du)) * calc_edge_prob(G, seed, Ns1_S))
+    if len(Ns1_S) > 0:
+        influence_spread = ((1 + (1 / len(Ns1_S)) * sum_pd(pu, du)) * calc_edge_prob(G, seed, Ns1_S))
+    else:
+        influence_spread = 0
+
     return influence_spread
 
 # plt.figure(figsize=(10, 10))
