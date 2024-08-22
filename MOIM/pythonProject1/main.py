@@ -14,7 +14,8 @@ beta = 0.5  # Example user-defined parameter
 
 # Dateset file
 #input_file = 'Mydata.mtx'
-input_file = 'socfb-Reed98.mtx'
+# input_file = 'socfb-Reed98.mtx'
+input_file = 'socfb-Dartmouth6.mtx'
 output_file = 'Mydata_with_costs.txt'
 
 
