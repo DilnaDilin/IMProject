@@ -55,39 +55,7 @@ def is_dominated(solution_a, solution_b):
 
 
 
-# def find_non_dominated_solutions_with_cost_LIE(solutions, node_costs, G, nondominated):
-#     """
-#     Find all non-dominated solutions based on cost and LIE values.
 #
-#     Args:
-#     solutions: A list of solutions, where each solution is a list of nodes (seed set)
-#     node_costs: A dictionary where keys are node IDs and values are costs associated with those nodes
-#     graph: A networkx graph representing the network
-#     pu: The probability of activation (default 0.1, similar to IC model)
-#
-#     Returns:
-#     A list of non-dominated solutions with their cost and LIE values.
-#     """
-#     evaluated_solutions = []
-#
-#     for solution in solutions:
-#         cost = sum(node_costs[node] for node in solution)
-#         LIE_value = LIE(G, solution)
-#         evaluated_solutions.append((solution, cost, LIE_value))
-#
-#     # Now find the non-dominated solutions based on (cost, LIE_value)
-#     non_dominated = []
-#
-#     for i, (sol_a, cost_a, LIE_a) in enumerate(evaluated_solutions):
-#         dominated = False
-#         for j, (sol_b, cost_b, LIE_b) in enumerate(evaluated_solutions):
-#             if i != j and is_dominated((cost_a, LIE_a), (cost_b, LIE_b)):
-#                 dominated = True
-#                 break
-#         if not dominated:
-#             non_dominated.append((sol_a, cost_a, LIE_a))
-#
-#     return non_dominated
 def find_non_dominated_solution(solution, node_costs, G, evaluated_solutions):
     """
     Check if a single solution is non-dominated based on cost and LIE values.
@@ -363,6 +331,7 @@ if __name__ == "__main__":
             #     positions[i] = apply_turbulence(positions[i], G, cost, budget, pm)
             # Apply the turbulence operator to the particles
             positions[i] = turbulence_operator(positions[i], set(G.nodes), pm=0.2)
+            local_search(positions[i], G, cost, budget)
             # print("po",positions[i])
             is_non_dominated, costval, LIE_value = find_non_dominated_solution(positions[i], cost, G,
                                                                                non_dominated_solutions)
