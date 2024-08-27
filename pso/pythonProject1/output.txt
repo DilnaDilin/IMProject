@@ -1,5 +1,5 @@
-Best Seed Set: [127, 254, 1081, 364, 233]
-Total Cost: 26.4125
-Best Fitness (LIE value): 36.7258
+Best Seed Set: [986, 54, 858, 548, 6]
+Total Cost: 82.4041
+Best Fitness (LIE value): 117.6551
 Number of Seeds (k): 5
 Budget: 90

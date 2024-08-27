@@ -1,5 +1,3 @@
-from random import random
-
 import networkx as nx
 import numpy as np
 
@@ -16,8 +14,7 @@ beta = 0.5  # Example user-defined parameter
 
 # Dataset file
 # input_file = 'socfb-Reed98.mtx'
-# input_file = 'email-univ.edges'
-input_file = 'soc-hamsterster.edges'
+input_file = 'email-univ.edges'
 output_file = 'Mydata_with_costs.txt'
 
 # Read the graph
@@ -35,48 +32,57 @@ with open(output_file, 'w') as f:
         f.write(f"{node} {G.degree(node)} {cost[node]:.4f}\n")
 
 n = G.number_of_nodes()
+# Calculate degree for each node
+degrees = G.degree()
 
-# Compute centrality measures
-degree_centrality = nx.degree_centrality(G)
-betweenness_centrality = nx.betweenness_centrality(G)
-closeness_centrality = nx.closeness_centrality(G)
-eigenvector_centrality = nx.eigenvector_centrality(G)
+# Sort nodes by degree in descending order
+ranked_nodes = sorted(degrees, key=lambda x: x[1], reverse=True)
 
-# Build the decision matrix
-# centrality_measures = [degree_centrality, betweenness_centrality, closeness_centrality, eigenvector_centrality]
-centrality_measures = [degree_centrality, betweenness_centrality]
-decision_matrix = np.zeros((n, len(centrality_measures)))
+# Extract just the nodes (excluding the degree values)
+ranked_nodes_list = [node for node, degree in ranked_nodes]
 
-nodes = list(G.nodes())
-for i, node in enumerate(nodes):
-    for j, centrality in enumerate(centrality_measures):
-        decision_matrix[i, j] = centrality[node]
+# # Compute centrality measures
+# degree_centrality = nx.degree_centrality(G)
+# betweenness_centrality = nx.betweenness_centrality(G)
+# closeness_centrality = nx.closeness_centrality(G)
+# eigenvector_centrality = nx.eigenvector_centrality(G)
+#
+# # Build the decision matrix
+# # centrality_measures = [degree_centrality, betweenness_centrality, closeness_centrality, eigenvector_centrality]
+# # centrality_measures = [degree_centrality, betweenness_centrality]
+# centrality_measures = [degree_centrality]
+# decision_matrix = np.zeros((n, len(centrality_measures)))
+#
+# nodes = list(G.nodes())
+# for i, node in enumerate(nodes):
+#     for j, centrality in enumerate(centrality_measures):
+#         decision_matrix[i, j] = centrality[node]
+#
+# # Normalize the decision matrix using the sum method
+# normalized_matrix = decision_matrix / decision_matrix.sum(axis=0)
+#
+# # Compute criteria weights using the provided equation
+# q = len(nodes)  # Sample size, could be a parameter
+# criteria_weights = np.zeros(len(centrality_measures))
+# for j in range(len(centrality_measures)):
+#     psi_j = np.sort(normalized_matrix[:, j])[-q:]
+#     criteria_weights[j] = psi_j.sum()
+#
+# criteria_weights /= criteria_weights.sum()
+#
+# # Calculate overall scores for each node using SAW
+# overall_scores = normalized_matrix.dot(criteria_weights)
+#
+# # Rank the nodes based on overall scores
+# ranked_nodes = sorted(zip(nodes, overall_scores), key=lambda x: x[1], reverse=True)
 
-# Normalize the decision matrix using the sum method
-normalized_matrix = decision_matrix / decision_matrix.sum(axis=0)
-
-# Compute criteria weights using the provided equation
-q = len(nodes)  # Sample size, could be a parameter
-criteria_weights = np.zeros(len(centrality_measures))
-for j in range(len(centrality_measures)):
-    psi_j = np.sort(normalized_matrix[:, j])[-q:]
-    criteria_weights[j] = psi_j.sum()
-
-criteria_weights /= criteria_weights.sum()
-
-# Calculate overall scores for each node using SAW
-overall_scores = normalized_matrix.dot(criteria_weights)
-
-# Rank the nodes based on overall scores
-ranked_nodes = sorted(zip(nodes, overall_scores), key=lambda x: x[1], reverse=True)
-ranked_nodes_list = [node for node, score in ranked_nodes]
 
 # Calculate the number of candidates using the given equation
 num_candidates = np.ceil(k + (n - k) * (beta * k / n) ** (1 - beta)).astype(int)
 
 # Select the candidates
 candidates = ranked_nodes_list[:num_candidates]
-print("lenth:" , len(candidates))
+print("length:", len(candidates))
 
 # print("finish", ranked_nodes)
 searchAgents = 50  # Number of Capuchins (agents)
