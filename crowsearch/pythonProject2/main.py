@@ -207,16 +207,18 @@ if __name__ == "__main__":
     r = 5
     s = 1.1
     # set number of seed nodes to a threshold
-    k = 10
+    # Set the number of seed nodes to a threshold
+    k = 40
     # Budget threshold
-    budget = 200
-    num_runs = 1
+    budget = 350
+    num_runs = 10
     beta = 0.5  # Example user-defined parameter
 
     # Dataset file
     # input_file = 'socfb-Reed98.mtx'
     # input_file = 'email-univ.edges'
-    input_file = 'soc-hamsterster.edges'
+    # input_file = 'soc-hamsterster.edges'
+    input_file = 'soc-wiki-Vote.mtx'
     output_file = 'Mydata_with_costs.txt'
 
     # Read the graph
@@ -242,10 +244,11 @@ if __name__ == "__main__":
     lower_bound = 0.0  # Lower bound of initialization
     maxIter = 100
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_file = f"CapSA_results_{current_time}.txt"
+    output_file = f"Crow_results_{current_time}.txt"
     # Open the output file to write results
     with open(output_file, 'w') as f:
         # Write the metadata before running the algorithm
+        f.write(f"Algorithm name: CrowSA\n")
         f.write(f"Input file: {input_file}\n")
         f.write(f"Budget: {budget}\n")
         f.write(f"Number of Nodes: {n}\n")

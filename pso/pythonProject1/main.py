@@ -284,21 +284,24 @@ if __name__ == "__main__":
     m = 1.1
     r = 5
     s = 1.1
-    k = 10
-    budget = 200
-    num_runs=1
+    # Set the number of seed nodes to a threshold
+    k = 40
+    # Budget threshold
+    budget = 350
+    num_runs = 10
     searchAgents = 50
     maxIter = 100
     pm = 0.2  # Mutation probability
-
+    # input_file = 'email-univ.edges'
+    # input_file = 'soc-hamsterster.edges'
+    input_file = 'soc-wiki-Vote.mtx'
+    # output_file = 'output.txt'
     # Generate a timestamp for the file name
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_file = f"CapSA_results_{current_time}.txt"
+    output_file = f"PSO_results_{current_time}.txt"
 
 
-    # input_file = 'email-univ.edges'
-    input_file = 'soc-hamsterster.edges'
-    output_file = 'output.txt'
+
 
     G = nx.read_edgelist(input_file, nodetype=int, create_using=nx.Graph())
     assert isinstance(G, nx.Graph), "G must be a NetworkX graph"
@@ -308,6 +311,7 @@ if __name__ == "__main__":
     # Open the output file to write results
     with open(output_file, 'w') as f:
         # Write the metadata before running the algorithm
+        f.write(f"Algorithm name: DPSO\n")
         f.write(f"Input file: {input_file}\n")
         f.write(f"Budget: {budget}\n")
         f.write(f"Number of Nodes: {n}\n")

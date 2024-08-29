@@ -7,14 +7,14 @@ m = 1.1
 r = 5
 s = 1.1
 # Set the number of seed nodes to a threshold
-k = 5
+k = 40
 # Budget threshold
-budget = 90
+budget = 350
 beta = 0.5  # Example user-defined parameter
 
 # Dataset file
 # input_file = 'socfb-Reed98.mtx'
-input_file = 'email-univ.edges'
+input_file = 'soc-wiki-Vote.mtx'
 output_file = 'Mydata_with_costs.txt'
 
 # Read the graph
@@ -86,10 +86,11 @@ maxIter = 30
 # BestFit, BestPos, BestPos_bin, cg_curve = DE(searchAgents, maxIter, candidates, budget, cost, G, F, CR, k)
 
 from Modified_LIE import LIE
-final_seed_set = [105, 333, 233, 42, 16]
+final_seed_set = [273, 431, 170, 204, 550, 736, 536, 230, 399, 617, 8, 22, 697, 21, 380, 762, 416, 750, 635, 452, 448, 482, 88, 199, 13, 447, 562, 57, 123, 118, 415, 666, 237, 690, 513, 709, 233, 606, 433, 538]
 lie_value = LIE(G,final_seed_set)
 # Output the results
 print("K and cost threshold:", k, budget)
+print("lenght of seed", len(final_seed_set))
 # print("Best Fitness Value:", BestFit)
 # print("Best Seed Set (Binary):", best_seed_set)
 # final_seed_set = [candidates[i] for i, val in enumerate(BestPos_bin) if val == 1]

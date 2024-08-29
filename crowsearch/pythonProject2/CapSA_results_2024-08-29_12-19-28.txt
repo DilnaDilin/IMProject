@@ -1,4 +1,4 @@
-Algorithm name: DPSO
+Algorithm name: CrowSA
 Input file: soc-wiki-Vote.mtx
 Budget: 350
 Number of Nodes: 889

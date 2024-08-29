@@ -10,16 +10,19 @@ from capSA import CapSA
 m = 1.1
 r = 5
 s = 1.1
-# set number of seed nodes to a threshold
-k = 10
+# Set the number of seed nodes to a threshold
+k = 40
 # Budget threshold
-budget = 200
+budget = 350
+num_runs = 10
+
 beta = 0.5  # Example user-defined parameter
 
 # Dataset file
 # input_file = 'socfb-Reed98.mtx'
 # input_file = 'email-univ.edges'
-input_file = 'soc-hamsterster.edges'
+# input_file = 'soc-hamsterster.edges'
+input_file = 'soc-wiki-Vote.mtx'
 output_file = 'Mydata_with_costs.txt'
 
 # Read the graph
@@ -86,7 +89,7 @@ dim = num_candidates          # Number of candidates (l)
 upper_bound = 1.0  # Upper bound of initialization
 lower_bound = 0.0  # Lower bound of initialization
 maxIter = 100
-num_runs=1
+
 
 # Open the output file to write results
 # Generate a timestamp for the file name
@@ -94,6 +97,7 @@ current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 output_file = f"results_{current_time}.txt"
 with open(output_file, 'w') as f:
     # Write the metadata before running the algorithm
+    f.write(f"Algorithm name: CapSA\n")
     f.write(f"Input file: {input_file}\n")
     f.write(f"Budget: {budget}\n")
     f.write(f"Number of Nodes: {n}\n")
