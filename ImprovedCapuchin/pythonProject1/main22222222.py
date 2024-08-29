@@ -7,9 +7,9 @@ from IC import IC
 
 
 # Set the number of seed nodes to a threshold
-k = 40
+k = 30
 # Budget threshold
-budget = 350
+budget = 200
 num_runs = 10  # Number of runs
 beta = 0.5  # Example user-defined parameter
 # Constants as given in the problem statement

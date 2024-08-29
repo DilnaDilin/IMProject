@@ -86,7 +86,9 @@ maxIter = 30
 # BestFit, BestPos, BestPos_bin, cg_curve = DE(searchAgents, maxIter, candidates, budget, cost, G, F, CR, k)
 
 from Modified_LIE import LIE
-final_seed_set = [273, 431, 170, 204, 550, 736, 536, 230, 399, 617, 8, 22, 697, 21, 380, 762, 416, 750, 635, 452, 448, 482, 88, 199, 13, 447, 562, 57, 123, 118, 415, 666, 237, 690, 513, 709, 233, 606, 433, 538]
+# final_seed_set = [273, 431, 170, 204, 550, 736, 536, 230, 399, 617, 8, 22, 697, 21, 380, 762, 416, 750, 635, 452, 448, 482, 88, 199, 13, 447, 562, 57, 123, 118, 415, 666, 237, 690, 513, 709, 233, 606, 433, 538]
+final_seed_set = [273, 431, 170, 204, 550, 736, 536, 230, 399, 617]
+
 lie_value = LIE(G,final_seed_set)
 # Output the results
 print("K and cost threshold:", k, budget)

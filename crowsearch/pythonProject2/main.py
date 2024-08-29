@@ -208,9 +208,9 @@ if __name__ == "__main__":
     s = 1.1
     # set number of seed nodes to a threshold
     # Set the number of seed nodes to a threshold
-    k = 40
+    k = 30
     # Budget threshold
-    budget = 350
+    budget = 200
     num_runs = 10
     beta = 0.5  # Example user-defined parameter
 

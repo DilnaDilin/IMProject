@@ -1,8 +1,0 @@
-Algorithm name: DPSO
-Input file: soc-wiki-Vote.mtx
-Budget: 350
-Number of Nodes: 889
-k: 40
-Iterations: 100
-Search Agents: 50
-

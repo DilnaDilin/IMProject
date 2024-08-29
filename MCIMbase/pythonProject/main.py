@@ -10,9 +10,9 @@ m = 1.1
 r = 5
 s = 1.1
 # Set the number of seed nodes to a threshold
-k = 40
+k = 30
 # Budget threshold
-budget = 350
+budget = 200
 num_runs = 10
 
 beta = 0.5  # Example user-defined parameter
