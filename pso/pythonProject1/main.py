@@ -381,7 +381,7 @@ if __name__ == "__main__":
             # Final evaluation
             best_fitness = LIE(G, Lbesti)
             total_cost = sum(cost[node] for node in Lbesti)
-            write_output(output_file, Lbesti, total_cost, best_fitness, k, budget)
+            # write_output(output_file, Lbesti, total_cost, best_fitness, k, budget)
             print("Convergence Curve:", cg_curve)
             print(f"Best Seed Set: {Lbesti}")
             print(f"Total Cost: {total_cost:.4f}")

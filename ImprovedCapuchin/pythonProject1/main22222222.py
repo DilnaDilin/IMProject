@@ -32,9 +32,9 @@ for node in G.nodes():
     di = G.degree(node)
     cost[node] = m ** (di / r) + (di / r) * s
 
-with open(output_file, 'w') as f:
-    for node in G.nodes():
-        f.write(f"{node} {G.degree(node)} {cost[node]:.4f}\n")
+# with open(output_file, 'w') as f:
+#     for node in G.nodes():
+#         f.write(f"{node} {G.degree(node)} {cost[node]:.4f}\n")
 
 n = G.number_of_nodes()
 
