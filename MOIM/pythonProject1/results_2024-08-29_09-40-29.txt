@@ -1,0 +1,7 @@
+Input file: soc-hamsterster.edges
+Budget: 200
+Number of Nodes: 2426
+k: 10
+Iterations: 100
+Search Agents: 50
+

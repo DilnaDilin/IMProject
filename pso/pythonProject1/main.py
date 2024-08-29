@@ -1,4 +1,7 @@
 import random
+import time
+from datetime import datetime
+
 import numpy as np
 import networkx as nx
 from Modified_LIE import LIE
@@ -281,12 +284,17 @@ if __name__ == "__main__":
     m = 1.1
     r = 5
     s = 1.1
-    k = 5
-    budget = 90
+    k = 10
+    budget = 200
+    num_runs=1
     searchAgents = 50
-    maxIter = 30
+    maxIter = 100
     pm = 0.2  # Mutation probability
-    cg_curve = np.zeros(maxIter)
+
+    # Generate a timestamp for the file name
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    output_file = f"CapSA_results_{current_time}.txt"
+
 
     # input_file = 'email-univ.edges'
     input_file = 'soc-hamsterster.edges'
@@ -294,85 +302,113 @@ if __name__ == "__main__":
 
     G = nx.read_edgelist(input_file, nodetype=int, create_using=nx.Graph())
     assert isinstance(G, nx.Graph), "G must be a NetworkX graph"
-
+    n = G.number_of_nodes()
     # Calculate node costs
     cost = {node: m ** (G.degree(node) / r) + (G.degree(node) / r) * s for node in G.nodes()}
+    # Open the output file to write results
+    with open(output_file, 'w') as f:
+        # Write the metadata before running the algorithm
+        f.write(f"Input file: {input_file}\n")
+        f.write(f"Budget: {budget}\n")
+        f.write(f"Number of Nodes: {n}\n")
+        f.write(f"k: {k}\n")
+        f.write(f"Iterations: {maxIter}\n")
+        f.write(f"Search Agents: {searchAgents}\n")
+        f.write("\n")
+        for run in range(num_runs):
+            cg_curve = np.zeros(maxIter)
+            # Measure start time
+            start_time = time.time()
+            # Initialize population and velocities
+            positions = initialize_population(G, searchAgents, k, cost, budget)
+            # print("pp",positions)
+            velocities = initialize_velocities(searchAgents, k)
+            # Initialize empty list to store evaluated solutions
+            non_dominated_solutions = []
 
-    # Initialize population and velocities
-    positions = initialize_population(G, searchAgents, k, cost, budget)
-    # print("pp",positions)
-    velocities = initialize_velocities(searchAgents, k)
-    # Initialize empty list to store evaluated solutions
-    non_dominated_solutions = []
+            # Loop through each position (solution) in the population
+            for position in positions:
+                # Check if the current position is non-dominated
+                is_non_dominated, costval, LIE_value = find_non_dominated_solution(position, cost, G,
+                                                                                   non_dominated_solutions)
 
-    # Loop through each position (solution) in the population
-    for position in positions:
-        # Check if the current position is non-dominated
-        is_non_dominated, costval, LIE_value = find_non_dominated_solution(position, cost, G, non_dominated_solutions)
+                # If the solution is non-dominated, add it to the list of evaluated solutions
+                if is_non_dominated:
+                    non_dominated_solutions.append((position, costval, LIE_value))
+            # print("non",non_dominated_solutions)
+            Pbesti = positions.copy()
+            Lbesti = find_local_best(non_dominated_solutions, budget)
+            # print("lb",Lbesti)
+            # Example node set N
+            # Main loop of the MODPSO-IM-CM algorithm
+            for t in range(maxIter):
+                print("Iteration", t)
+                for i in range(searchAgents):
+                    # print("pobef", positions[i])
+                    velocities[i] = update_velocity(positions[i], Pbesti[i], Lbesti, velocities[i])
+                    positions[i] = update_position(positions[i], velocities[i], G)
 
-        # If the solution is non-dominated, add it to the list of evaluated solutions
-        if is_non_dominated:
-            non_dominated_solutions.append((position, costval, LIE_value))
-    # print("non",non_dominated_solutions)
-    Pbesti = positions.copy()
-    Lbesti = find_local_best(non_dominated_solutions, budget)
-    # print("lb",Lbesti)
-    # Example node set N
-    # Main loop of the MODPSO-IM-CM algorithm
-    for t in range(maxIter):
-        print("Iteration", t)
-        for i in range(searchAgents):
-            # print("pobef", positions[i])
-            velocities[i] = update_velocity(positions[i], Pbesti[i], Lbesti, velocities[i])
-            positions[i] = update_position(positions[i], velocities[i], G)
+                    # # Apply turbulence
+                    # if t < maxIter * pm:
+                    #     positions[i] = apply_turbulence(positions[i], G, cost, budget, pm)
+                    # Apply the turbulence operator to the particles
+                    positions[i] = turbulence_operator(positions[i], set(G.nodes), pm=0.2)
+                    # local_search(positions[i], G, cost, budget)
+                    # print("po",positions[i])
+                    is_non_dominated, costval, LIE_value = find_non_dominated_solution(positions[i], cost, G,
+                                                                                       non_dominated_solutions)
+                    # If the solution is non-dominated, add it to the list of evaluated solutions
 
-            # # Apply turbulence
-            # if t < maxIter * pm:
-            #     positions[i] = apply_turbulence(positions[i], G, cost, budget, pm)
-            # Apply the turbulence operator to the particles
-            positions[i] = turbulence_operator(positions[i], set(G.nodes), pm=0.2)
-            local_search(positions[i], G, cost, budget)
-            # print("po",positions[i])
-            is_non_dominated, costval, LIE_value = find_non_dominated_solution(positions[i], cost, G,
-                                                                               non_dominated_solutions)
-            # If the solution is non-dominated, add it to the list of evaluated solutions
+                    if is_non_dominated:
+                        # print("non", positions[i],costval,LIE_value)
+                        non_dominated_solutions.append((positions[i], costval, LIE_value))
 
-            if is_non_dominated:
-                # print("non", positions[i],costval,LIE_value)
-                non_dominated_solutions.append((positions[i], costval, LIE_value))
+                # Update global best (local best in the population)
+                Lbesti = find_local_best(non_dominated_solutions, budget)
+                # print(Lbesti)
+                best_fitness = LIE(G, Lbesti)
+                print("fit", best_fitness)
+
+                # # Local search
+                # Xa = max(positions, key=lambda x: LIE(G, x))
+                # local_solutions = local_search(Xa, G, cost, budget)
+                # archive.extend(local_solutions)
+                cg_curve[t] = best_fitness
+            # Final evaluation
+            best_fitness = LIE(G, Lbesti)
+            total_cost = sum(cost[node] for node in Lbesti)
+            write_output(output_file, Lbesti, total_cost, best_fitness, k, budget)
+            print("Convergence Curve:", cg_curve)
+            print(f"Best Seed Set: {Lbesti}")
+            print(f"Total Cost: {total_cost:.4f}")
+            print(f"Best Fitness (LIE value): {best_fitness:.4f}")
+            print(f"Number of Seeds (k): {k}")
+            print(f"Budget: {budget}")
+            # Measure end time
+            end_time = time.time()
+            execution_time = end_time - start_time
+            from IC import IC
+
+            # Set the propagation probability and the number of Monte Carlo simulations
+            propagation_probability = 0.01
+            monte_carlo_simulations = 1000
+
+            # Calculate the spread using the IC model
+            spread = IC(G, Lbesti, propagation_probability, mc=monte_carlo_simulations)
+
+            # Output the results
+            print(f"Final Seed Set: {Lbesti}")
+            print(f"Spread of the Seed Set using IC: {spread}")
+            final_seed_set = Lbesti
+            convergence_curve = cg_curve
+            # Write the results of this run to the file
+            f.write(f"Run {run + 1}:\n")
+            f.write(f"Best Seed Set: {final_seed_set}\n")
+            f.write(f"Best Seed Set Cost: {total_cost:.4f}\n")
+            f.write(f"Best Fitness Value (LIE): {best_fitness:.4f}\n")
+            f.write(f"Spread: {spread}\n")
+            f.write(f"Convergence Curve: {convergence_curve.tolist()}\n")
+            f.write(f"Execution Time: {execution_time:.4f} seconds\n")
+            f.write("\n")
 
 
-        # Update global best (local best in the population)
-        Lbesti = find_local_best(non_dominated_solutions, budget)
-        # print(Lbesti)
-        best_fitness = LIE(G, Lbesti)
-        print("fit",best_fitness)
-
-        # # Local search
-        # Xa = max(positions, key=lambda x: LIE(G, x))
-        # local_solutions = local_search(Xa, G, cost, budget)
-        # archive.extend(local_solutions)
-        cg_curve[t] = best_fitness
-    # Final evaluation
-    best_fitness = LIE(G, Lbesti)
-    total_cost = sum(cost[node] for node in Lbesti)
-    write_output(output_file, Lbesti, total_cost, best_fitness, k, budget)
-    print("Convergence Curve:", cg_curve)
-    print(f"Best Seed Set: {Lbesti}")
-    print(f"Total Cost: {total_cost:.4f}")
-    print(f"Best Fitness (LIE value): {best_fitness:.4f}")
-    print(f"Number of Seeds (k): {k}")
-    print(f"Budget: {budget}")
-
-    from IC import IC
-
-    # Set the propagation probability and the number of Monte Carlo simulations
-    propagation_probability = 0.01
-    monte_carlo_simulations = 1000
-
-    # Calculate the spread using the IC model
-    spread = IC(G, Lbesti, propagation_probability, mc=monte_carlo_simulations)
-
-    # Output the results
-    print(f"Final Seed Set: {Lbesti}")
-    print(f"Spread of the Seed Set using IC: {spread}")
