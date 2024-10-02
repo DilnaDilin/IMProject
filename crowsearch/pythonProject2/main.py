@@ -208,18 +208,18 @@ if __name__ == "__main__":
     s = 1.1
     # set number of seed nodes to a threshold
     # Set the number of seed nodes to a threshold
-    k = 30
+    k = 20
     # Budget threshold
-    budget = 200
-    num_runs = 10
+    budget = 800
+    num_runs = 5
     beta = 0.5  # Example user-defined parameter
 
     # Dataset file
     # input_file = 'socfb-Reed98.mtx'
     # input_file = 'email-univ.edges'
-    # input_file = 'soc-hamsterster.edges'
-    input_file = 'soc-wiki-Vote.mtx'
-    output_file = 'Mydata_with_costs.txt'
+    input_file = 'soc-hamsterster.edges'
+    # input_file = 'soc-wiki-Vote.mtx'
+    # output_file = 'Mydata_with_costs.txt'
 
     # Read the graph
     G = nx.read_edgelist(input_file, nodetype=int, create_using=nx.Graph())
@@ -231,9 +231,9 @@ if __name__ == "__main__":
         di = G.degree(node)
         cost[node] = m ** (di / r) + (di / r) * s
 
-    with open(output_file, 'w') as f:
-        for node in G.nodes():
-            f.write(f"{node} {G.degree(node)} {cost[node]:.4f}\n")
+    # with open(output_file, 'w') as f:
+    #     for node in G.nodes():
+    #         f.write(f"{node} {G.degree(node)} {cost[node]:.4f}\n")
 
     n = G.number_of_nodes()
 

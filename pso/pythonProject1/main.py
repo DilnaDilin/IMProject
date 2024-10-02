@@ -285,16 +285,16 @@ if __name__ == "__main__":
     r = 5
     s = 1.1
     # Set the number of seed nodes to a threshold
-    k = 30
+    k = 20
     # Budget threshold
-    budget = 200
-    num_runs = 10
+    budget = 800
+    num_runs = 5
     searchAgents = 50
     maxIter = 100
     pm = 0.2  # Mutation probability
     # input_file = 'email-univ.edges'
-    # input_file = 'soc-hamsterster.edges'
-    input_file = 'soc-wiki-Vote.mtx'
+    input_file = 'soc-hamsterster.edges'
+    # input_file = 'soc-wiki-Vote.mtx'
     # output_file = 'output.txt'
     # Generate a timestamp for the file name
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")

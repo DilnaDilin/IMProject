@@ -1,0 +1,43 @@
+Algorithm name: DPSO
+Input file: soc-hamsterster.edges
+Budget: 1200
+Number of Nodes: 2426
+k: 30
+Iterations: 100
+Search Agents: 50
+
+Run 1:
+Best Seed Set: [73, 121, 301, 202, 6, 69, 189, 313, 622, 617, 84, 629, 242, 612, 66, 640, 312, 240, 21, 249, 5, 465, 168, 131]
+Best Seed Set Cost: 1193.5609
+Best Fitness Value (LIE): 833.1385
+Spread: 1642.036
+Execution Time: 0.7615 seconds
+
+Run 2:
+Best Seed Set: [73, 121, 301, 202, 6, 69, 189, 313, 622, 617, 84, 629, 242, 612, 66, 640, 312, 240, 21, 249, 5, 465, 168, 131]
+Best Seed Set Cost: 1193.5609
+Best Fitness Value (LIE): 833.1385
+Spread: 1638.37
+Execution Time: 0.6101 seconds
+
+Run 3:
+Best Seed Set: [73, 121, 301, 202, 6, 69, 189, 313, 622, 617, 84, 629, 242, 612, 66, 640, 312, 240, 21, 249, 5, 465, 168, 131]
+Best Seed Set Cost: 1193.5609
+Best Fitness Value (LIE): 833.1385
+Spread: 1641.443
+Execution Time: 0.5317 seconds
+
+Run 4:
+Best Seed Set: [73, 121, 301, 202, 6, 69, 189, 313, 622, 617, 84, 629, 242, 612, 66, 640, 312, 240, 21, 249, 5, 465, 168, 131]
+Best Seed Set Cost: 1193.5609
+Best Fitness Value (LIE): 833.1385
+Spread: 1639.678
+Execution Time: 0.7387 seconds
+
+Run 5:
+Best Seed Set: [73, 121, 301, 202, 6, 69, 189, 313, 622, 617, 84, 629, 242, 612, 66, 640, 312, 240, 21, 249, 5, 465, 168, 131]
+Best Seed Set Cost: 1193.5609
+Best Fitness Value (LIE): 833.1385
+Spread: 1640.766
+Execution Time: 1.0601 seconds
+

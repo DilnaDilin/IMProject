@@ -10,16 +10,17 @@ m = 1.1
 r = 5
 s = 1.1
 # Set the number of seed nodes to a threshold
-k = 30
+k = 20
 # Budget threshold
-budget = 200
-num_runs = 10
+budget = 800
+num_runs = 5
 
 beta = 0.5  # Example user-defined parameter
 
 # Dataset file
-# input_file = 'soc-hamsterster.edges'
-input_file = 'soc-wiki-Vote.mtx'
+input_file = 'soc-hamsterster.edges'
+# input_file = 'soc-wiki-Vote.mtx'
+# input_file = 'email-univ.edges'
 output_file = 'Mydata_with_costs.txt'
 
 # Read the graph

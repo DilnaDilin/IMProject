@@ -46,6 +46,7 @@ def IC(G, S, p, mc=1000):
         # Count only the new infected nodes, excluding the seed nodes
         total_spread += len(new_infected_nodes)
 
+
     # Return the average spread over all simulations
     return total_spread / mc
 

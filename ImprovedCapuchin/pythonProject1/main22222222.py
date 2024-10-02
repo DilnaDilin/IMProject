@@ -7,10 +7,10 @@ from IC import IC
 
 
 # Set the number of seed nodes to a threshold
-k = 30
+k = 20
 # Budget threshold
-budget = 200
-num_runs = 10  # Number of runs
+budget = 800
+num_runs = 5  # Number of runs
 beta = 0.5  # Example user-defined parameter
 # Constants as given in the problem statement
 m = 1.1
@@ -18,8 +18,9 @@ r = 5
 s = 1.1
 
 # Dataset file
-# input_file = 'soc-hamsterster.edges'
-input_file = 'soc-wiki-Vote.mtx'
+input_file = 'soc-hamsterster.edges'
+# input_file = 'soc-wiki-Vote.mtx'
+# input_file = 'email-univ.edges'
 output_file = 'Mydata_with_costs.txt'
 
 # Read the graph
